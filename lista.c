@@ -25,18 +25,24 @@ void lista_clear(Lista *l) {
 }
 
 void lista_append(Lista *l, int valor) {
-    l->vet[l->quant] = valor;
-    l->quant++;
+    if (l->quant + 1 <= MAX) {
+        l->quant++;
+        l->vet[l->quant - 1] = valor;
+    }
+}
+
+void lista_trocar(Lista *l, int index1, int index2) {
+    int aux = l->vet[index1];
+    l->vet[index1] = l->vet[index2];
+    l->vet[index2] = aux;
 }
 
 void lista_insert(Lista *l, int valor) {
     
-    for (int i = l->quant - 1; i >= 0; i--) {
-        l->vet[i + 1] = l->vet[i];
+    lista_append(l, valor);
+    for (int i = l->quant - 1; i > 0; i--) {
+        lista_trocar(l, i, i - 1);
     }
-    l->vet[0] = valor;
-    l->quant++;
-
 }
 
 int lista_get(Lista *l, int index) {
